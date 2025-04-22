@@ -92,7 +92,7 @@ public class BookDaoImpl implements BookDao {
             if (book.getAuthor() != null) {
                 ps.setLong(4, book.getAuthor().getId());
             } else {
-                ps.setNull(4, -5);
+                ps.setNull(4, -5); // -5 represents big int. check docs 
             }
 
             ps.execute();
@@ -178,7 +178,7 @@ public class BookDaoImpl implements BookDao {
         book.setIsbn(resultSet.getString(2));
         book.setPublisher(resultSet.getString(3));
         book.setTitle(resultSet.getString(4));
-        book.setAuthor(authorDao.getById(resultSet.getLong(5)));
+        book.setAuthor(authorDao.getById(resultSet.getLong(5))); // this causes 2 db calls. we can refactor code with 1 sql statement to avoid. but with hibernate its simple
 
         return book;
     }
